@@ -1,0 +1,60 @@
+<% provide(:title, custom_title('Sign Up'))%>
+<div class="container-fluid h-custom">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <%= form_for(@user) do |f| %>
+        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+          <p class="login_text lead fw-normal mb-0 me-3">Sign in to continue</p>
+        </div>
+        <%= render 'shared/error_messages' %>
+        <!-- Full name input -->
+        <div class="row mb-3">
+          <%= f.label :full_name, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.text_field :full_name, class: 'form-control', placeholder: 'Enter your full name' %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <%= f.label :email, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.email_field :email, class: 'form-control', placeholder: 'Enter a valid email address' %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <%= f.label :mobile_number, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.number_field :mobile_number, class: 'form-control', placeholder: 'Enter 11 digit mobile number' %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <%= f.label :password, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.password_field :password, class: 'form-control', placeholder: 'Enter your password' %>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <%= f.label :password_confirmation, 'Confimation', class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'Retype your password' %>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <!-- Checkbox -->
+          <div class="form-check mb-0">
+            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+            <label class="form-check-label" for="form2Example3"> Remember me </label>
+          </div>
+          <a href="#!" class="text-body">Forgot password?</a>
+        </div>
+        <div class="text-center text-lg-start mt-4 pt-2">
+          <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Sign up</button>
+          
+          <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <%= link_to 'Login', login_path, class: 'link-primary'%></p>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-9 col-lg-6 col-xl-5">
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Login to MovieMagic">
+    </div>
+  </div>
+</div>

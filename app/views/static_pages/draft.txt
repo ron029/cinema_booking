@@ -1,0 +1,32 @@
+<%= if false %>
+  <% @all_cinemas_movies_info.each_slice(3) do |cinemas_slice| %>
+    <div class="row">
+      <% cinemas_slice.each do |cinema| %>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= cinema. %></h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% @all_cinema_movies.each do |cinema| %>
+  <% 
+    booking_count = cinema.bookings.size
+    if booking_count < 10
+  %>
+    <h2>Cinema: <%= cinema.name %></h2>
+    <% cinema.movies.each do |movie| %>
+      <p>Movie Name: <%= movie.name %></p>
+    <% end %>
+    <p>Total seats: <%= cinema.bookings.size %> </p>
+  <% end %>
+<% end %>

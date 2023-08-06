@@ -9,7 +9,6 @@ ruby '2.6.3'
 gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
 
 gem 'hirb'
-
 gem 'will_paginate'
 
 gem 'did_you_mean'

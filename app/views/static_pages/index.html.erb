@@ -1,0 +1,26 @@
+<% provide(:title, custom_title()) %>
+<div class="container">
+<h1 class="alert alert-info">"Embrace the Movie Magic: Discover Your Exciting Cinema Bookings"</h1>
+<% @all_cinema_movies.each_slice(3) do |cinemas_slice| %>
+  <div class="row">
+      <% cinemas_slice.each do |cinema| %>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= cinema.name %></h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Available Seats: <%= cinema.bookings.size - 10 * -1 %></h6>
+              <%# <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> %>
+              <ul>
+                <% cinema.movies.each do |movie| %>
+                  <li>Movie Name: <%= link_to movie.name, cinema_movie_path(cinema.id, movie.id), class: 'card-link' %></li>
+                <% end %>
+              </ul>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+<% end %>
+<%= will_paginate @all_cinema_movies%>
+

@@ -1,0 +1,8 @@
+<h1><%= @movie.name %></h1>
+<p>Its now showing in Cinema: "<%= @cinema.name %>"</p>
+<% @seat_count = (@seat.count - 10) * -1 %>
+
+<p>Available seats: <%= @seat_count %></p>
+<% if @seat_count.positive? %>
+  <%= link_to 'Book Now!', new_cinema_movie_book_path(@cinema.id, @movie.ids[0]) %>
+<% end %>

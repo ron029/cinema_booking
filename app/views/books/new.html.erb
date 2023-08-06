@@ -1,0 +1,49 @@
+<% provide(:title, custom_title(@movie.name, @cinema.name)) %>
+
+<div class="container-fluid h-custom">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <h1><%= @movie.name %></h1>
+    <h2>Is now showing to: <%= @cinema.name %></h2>
+    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <%= form_for [@cinema, @movie, @book], url: cinema_movie_books_path(@cinema, @movie) do |f| %>
+        <%= render 'shared/error_messages' %>
+        <!-- Full name input -->
+        <div class="row">
+          <%= f.label :full_name, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <p class="form-control disabled_field"><%= @user.full_name %></p>
+          </div>
+        </div>
+        <div class="row">
+          <%= f.label :email, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <p class="form-control disabled_field"><%= @user.email %></p>
+          </div>
+        </div>
+        <div class="row">
+          <%= f.label :mobile_number, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <p class="form-control disabled_field"><%= @user.mobile_number %></p>
+          </div>
+        </div>
+        <div class="row">
+          <%= f.label :date, class: 'col-sm-2 col-form-label' %>
+          <div class="col-sm-5">
+            <%= f.date_field :date, class: 'form-control', placeholder: '' %>
+          </div>
+          <%= f.label :time, class: 'col-sm-2 col-form-label' %>
+          <div class="col-sm-3">
+             <%= f.select :time, Booking.times.keys, {prompt: "--:--"} , class: "form-control" %>
+          </div>
+        </div>
+        <div class="text-center text-lg-start mt-4 pt-2">
+          <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Book</button>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-9 col-lg-6 col-xl-5">
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Login to MovieMagic">
+    </div>
+  </div>
+</div>
+

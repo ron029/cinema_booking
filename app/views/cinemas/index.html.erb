@@ -1,0 +1,19 @@
+<% provide(:title, custom_title('Cinemas')) %>
+<div class="container">
+<h1>Cinemas</h1>
+<% @cinemas_all.each_slice(3) do |cinemas_slice| %>
+  <div class="row">
+      <% cinemas_slice.each do |cinema| %>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= cinema.name %></h5>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<%= will_paginate @cinemas_all%>
