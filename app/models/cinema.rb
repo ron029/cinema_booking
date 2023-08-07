@@ -10,6 +10,13 @@
 # Frozen_string_literal: true
 
 class Cinema < ApplicationRecord
-  has_many :movies
+  enum availability: {
+    'Fully Booked' => 0,
+    'Available' => 1
+  }
+
+  has_many :movies, dependent: :nullify
   has_many :bookings, through: :movies
+  has_many :screenings
+  validates :name, :availability, presence: true
 end

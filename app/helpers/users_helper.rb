@@ -31,9 +31,7 @@ module UsersHelper
   end
 
   def current_user
-    if session[:user_id]
-      @current_user ||= User.find_by(id: session[:user_id])
-    end
+    @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
   def logged_in?
@@ -41,6 +39,8 @@ module UsersHelper
   end
 
   def admin?
+    return false if current_user.nil?
+
     current_user.admin.to_i.positive?
   end
 

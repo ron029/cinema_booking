@@ -1,0 +1,15 @@
+<% provide(:title, custom_title(@cinema.name)) %>
+<div class="row">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+    <h1>Cinema: <%= @cinema.name %></h1>
+    <div class="d-flex flex-column align-items-end">
+      <%= link_to "Edit", edit_cinema_path(@cinema), class: 'btn btn-primary' %>
+    </div>
+    <p>Cinema Name: <%= @cinema.name %></p>
+    <p>Availability: <%= @cinema.availability %></p>
+  </div>
+  <div class="col-md-4">
+  </div>
+</div>

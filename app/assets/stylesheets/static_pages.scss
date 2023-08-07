@@ -8,6 +8,25 @@ body {
   padding-top: 60px;
 }
 
+.table-container {
+  position: relative;
+}
+
+.cinema_hidden_id {
+  display: none;
+}
+
+.table-search-movie {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Higher z-index places the table in front of other elements */
+}
+
+#no_result_cinema{
+  display: none;
+}
+
 /* dashboard cinema */
 .card {
   margin: 15px 0;

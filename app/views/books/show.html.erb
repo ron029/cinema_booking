@@ -4,16 +4,21 @@
     <tr>
       <th>Cinema Name</th>
       <th>Movie Name</th>
+      <th>Users' Full Name</th>
       <th>Date</th>
       <th>Time</th>
     </tr>
   </thead>
   <tbody>
+    <% @booking.each do |book|%>
     <tr>
-      <td><%= @cinema_name %></td>
-      <td><%= @movie_name %></td>
-      <td><%= @booking.date %></td>
-      <td><%= Booking::times.key(@booking.time) %></td>
+      <td><%= book.cinema.name %></td>
+      <td><%= book.movie.name %></td>
+      <td><%= book.user.full_name %>
+      <td><%= book.date %></td>
+      <td><%= book.time %></td>
     </tr>
+    <% end %>
   </tbody>
 </table>
+<%= paginate @booking %>

@@ -1,14 +1,18 @@
 class BooksController < ApplicationController
   def index
-    redirect_to new_cinema_movie_book_path(params[:cinema_id], params[:movie_id])
+    if params[:movie_id]
+      @movie = Movie.find(params[:movie_id])
+      @all_book = @movie.bookings.page(params[:page]).per(10)
+    elsif params[:cinema_id]
+      @cinema = Cinema.find(params[:cinema_id])
+      @all_book = @cinema.bookings.page(params[:page]).per(10)
+    else
+      @all_book = Booking.all.page(params[:page]).per(10)
+    end
   end
 
   def show
-    @booking = Booking.includes(:cinema, :movie).find(params[:id])
-
-    # Access the cinema name and movie name for the specific booking
-    @cinema_name = @booking.cinema.name
-    @movie_name = @booking.movie.name
+    @booking = Booking.where('user_id=?', current_user).order(created_at: :desc).page(params[:page]).per(9)
   end
 
   def new
@@ -28,7 +32,7 @@ class BooksController < ApplicationController
     @book.user_id = @user.id
     if @book.save
       flash[:success] = 'Your Booking has been save.'
-      redirect_to cinema_movie_book_path(@book.cinema, @book.movie, @book)
+      redirect_to cinema_movie_path(@book.cinema, @book.movie)
     else
       render :new
     end

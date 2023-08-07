@@ -8,8 +8,11 @@ ruby '2.6.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.0.6', '>= 6.0.6.1'
 
+gem 'kaminari'
+
+gem 'ransack'
+
 gem 'hirb'
-gem 'will_paginate'
 
 gem 'did_you_mean'
 

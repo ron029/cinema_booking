@@ -1,21 +1,167 @@
 <% provide(:title, custom_title('Bookings')) %>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Cinema Name</th>
-      <th>Movie Name</th>
-      <th>Date</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody>
-<% @book_user.each do |user| %>
-    <tr>
-      <td><%= user.cinema.name %></td>
-      <td><%= user.movie.name %></td>
-      <td><%= user.date %></td>
-      <td><%= user.time %></td>
-    </tr>
+<% if admin? %>
+  <% if params[:movie_id] %>
+    <h1><%= pluralize(@all_book.count, 'Booking') %> for Movie: <%= @movie.name %></h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_book.each do |book| %>
+          <tr>
+            <td><%= book.user.full_name %></td>
+            <td><%= book.user.email %>
+            <td><%= book.screening.date %></td>
+            <td><%= book.screening.time %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% elsif params[:cinema_id] %>
+    <h1><%= @all_book.count %> Bookings for Cinema: <%= @cinema.name %></h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Movie Name</th>
+          <th>Users' Full Name</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_book.each do |book| %>
+          <tr>
+            <td><%= book.movie.name %></td>
+            <td><%= book.user.full_name %></td>
+            <td><%= book.screening.date %></td>
+            <td><%= book.screening.time %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <% provide(:title, custom_title('Bookings')) %>
+<% if admin? %>
+  <% if params[:movie_id] %>
+    <h1><%= pluralize(@all_book.count, 'Booking') %> for Movie: <%= @movie.name %></h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_book.each do |book| %>
+          <tr>
+            <td><%= book.user.full_name %></td>
+            <td><%= book.user.email %>
+            <td><%= book.screening.date %></td>
+            <td><%= book.screening.time %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% elsif params[:cinema_id] %>
+    <h1><%= @all_book.count %> Bookings for Cinema: <%= @cinema.name %></h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Movie Name</th>
+          <th>Users' Full Name</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @all_book.each do |book| %>
+          <tr>
+            <td><%= book.movie.name %></td>
+            <td><%= book.user.full_name %></td>
+            <td><%= book.screening.date %></td>
+            <td><%= book.screening.time %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  <h1><%= @all_book.count %> Bookings</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Cinema Name</th>
+        <th>Movie Name</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @all_book.each do |user| %>
+      <tr>
+        <td><%= user.cinema.name %></td>
+        <td><%= user.movie.name %></td>
+        <td><%= user.screening.date %></td>
+        <td><%= user.screening.time %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h1><%= pluralize(@all_book.count, 'Booking') %></h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Cinema Name</th>
+        <th>Movie Name</th>
+        <th>Full Name</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @all_book.each do |user| %>
+          <tr>
+            <td><%= user.cinema.name %></td>
+            <td><%= user.movie.name %></td>
+            <td><%= user.user.full_name %></td>
+            <td><%= user.screening.date %></td>
+            <td><%= user.screening.time %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
-  </tbody>
-</table>
+<% end %>
+<% else %>
+  <h1><%= pluralize(@all_book.count, 'Booking') %></h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Cinema Name</th>
+        <th>Movie Name</th>
+        <th>Full Name</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @all_book.each do |user| %>
+      <tr>
+        <td><%= user.cinema.name %></td>
+        <td><%= user.movie.name %></td>
+        <td><%= user.user.full_name %></td>
+        <td><%= user.screening.date %></td>
+        <td><%= user.screening.time %></td>
+      </tr>
+  <% end %>
+    </tbody>
+  </table>
+<% end %>
+<%= paginate @all_book %>

@@ -1,8 +1,32 @@
-<h1><%= @movie.name %></h1>
-<p>Its now showing in Cinema: "<%= @cinema.name %>"</p>
-<% @seat_count = (@seat.count - 10) * -1 %>
-
-<p>Available seats: <%= @seat_count %></p>
-<% if @seat_count.positive? %>
-  <%= link_to 'Book Now!', new_cinema_movie_book_path(@cinema.id, @movie.ids[0]) %>
-<% end %>
+<div class="row">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+    <h1><%= @movie.name %></h1>
+    <div class="d-flex flex-column align-items-end">
+      <% if admin? %>
+        <% if params[:cinema_id] %>
+          <%= link_to "Edit", edit_cinema_movie_path(@cinema, @movie), class: 'btn btn-primary' %>
+        <% else %>
+          <%= link_to "Edit", edit_movie_path(@movie), class: 'btn btn-primary' %>
+        <% end %>
+      <% else %>
+        <% if @cinema.bookings.count >= 10 %>
+          <p class="alert alert-danger">Fully Booked</p>
+        <% else %>
+          <%= link_to 'Book Now!', new_cinema_movie_book_path(@cinema, @movie), class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+    </div>
+    <p>Name: <%= @movie.name %></p>
+    <p>
+      <% if admin? %>
+        <%= link_to "#{@movie.bookings.count} | Bookings ", movie_books_path(@movie) %>
+      <% else %>
+        <%= @movie.bookings.count %> | Bookings
+      <% end %>
+    </p>
+  </div>
+  <div class="col-md-4">
+  </div>
+</div>

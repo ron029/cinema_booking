@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_06_100402) do
+ActiveRecord::Schema.define(version: 2023_08_07_214904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,6 @@ ActiveRecord::Schema.define(version: 2023_08_06_100402) do
     t.bigint "cinema_id", null: false
     t.bigint "user_id", null: false
     t.bigint "movie_id", null: false
-    t.date "date"
-    t.integer "time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cinema_id"], name: "index_bookings_on_cinema_id"
@@ -43,6 +41,17 @@ ActiveRecord::Schema.define(version: 2023_08_06_100402) do
     t.index ["cinema_id"], name: "index_movies_on_cinema_id"
   end
 
+  create_table "screenings", force: :cascade do |t|
+    t.date "date"
+    t.integer "time_slot"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cinema_id", null: false
+    t.bigint "movie_id", null: false
+    t.index ["cinema_id"], name: "index_screenings_on_cinema_id"
+    t.index ["movie_id"], name: "index_screenings_on_movie_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "full_name"
     t.string "email"
@@ -57,4 +66,6 @@ ActiveRecord::Schema.define(version: 2023_08_06_100402) do
   add_foreign_key "bookings", "movies"
   add_foreign_key "bookings", "users"
   add_foreign_key "movies", "cinemas"
+  add_foreign_key "screenings", "cinemas"
+  add_foreign_key "screenings", "movies"
 end

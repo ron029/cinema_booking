@@ -1,0 +1,28 @@
+<% provide(:title, custom_title('Screenings')) %>
+<h1>Create a New Screening</h1>
+
+<%= form_with(model: @screening, url: screenings_create_path) do |form| %>
+  <div>
+    <%= form.label :cinema_id %>
+    <%= form.collection_select :cinema_id, @cinemas, :id, :name, prompt: true %>
+  </div>
+
+  <div>
+    <%= form.label :movie_id %>
+    <%= form.collection_select :movie_id, @movies, :id, :name, prompt: true %>
+  </div>
+
+  <div>
+    <%= form.label :date %>
+    <%= form.date_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :time_slot %>
+    <%= form.select :time_slot, Screening.time_slots.keys, prompt: true %>
+  </div>
+
+  <div>
+    <%= form.submit 'Create Screening' %>
+  </div>
+<% end %>

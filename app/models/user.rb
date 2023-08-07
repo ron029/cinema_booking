@@ -20,6 +20,10 @@ class User < ApplicationRecord
   regex_email = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
   VALID_EMAIL_REGEX = regex_email.freeze
 
+  has_many :bookings
+  has_many :movies, through: :bookings
+  has_many :screening, through: :bookings
+
   validates :full_name, presence: true
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :mobile_number, presence: true

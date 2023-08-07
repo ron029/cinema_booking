@@ -7,8 +7,20 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  get '/screenings/new', to: 'screenings#new', as: 'screenings_new'
+  post '/screenings', to: 'screenings#create', as: 'screenings_create'
+  resources :screenings
+
   resources :users
-  resources :movies
+  resources :movies do
+    collection do
+      get 'search'
+    end
+    resources :books
+  end
+  resources :cinemas do
+    resources :books, only: :index, on: :member
+  end
   resources :books
   resources :cinemas do
     resources :movies do

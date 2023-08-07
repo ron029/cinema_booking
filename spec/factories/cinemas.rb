@@ -11,6 +11,6 @@
 FactoryBot.define do
   factory :cinema do
     name { Faker::Lorem.words(number: 2).join(' ').truncate(30) }
-    availability { rand(0..1) == 0 ? 'fully_booked' : 'available' }
+    availability { rand(0..1) == 0 ? 'Fully Booked' : 'Available' }
   end
 end

@@ -3,8 +3,6 @@
 # Table name: bookings
 #
 #  id         :bigint           not null, primary key
-#  date       :date
-#  time       :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  cinema_id  :bigint           not null
@@ -22,29 +20,38 @@
 #  fk_rails_...  (cinema_id => cinemas.id)
 #  fk_rails_...  (movie_id => movies.id)
 #  fk_rails_...  (user_id => users.id)
-# Frozen_string_literal: true
+#
 
 # This class respresent the bookings in the app
 class Booking < ApplicationRecord
-  before_save :convert_time_to_integer
+  before_save :count_cinema_booking
+  after_save :lock_cinema_seat
+
   enum time: {
     '10 AM' => 10,
     '7 PM' => 19,
     '10 PM' => 22,
     '11 PM' => 23
-    # Add more time slots as needed
   }
+
   belongs_to :cinema
   belongs_to :user
   belongs_to :movie
+  has_many :screenings
+  belongs_to :screening
 
-  validates :date, :time, :user_id, :cinema_id, :movie_id, presence: true
+  validates :date, :time, presence: true
 
-  def convert_time_to_integer
-    # Ensure that the 'time' attribute is a string (e.g., '10 AM')
-    return unless time.is_a?(String)
+  def count_cinema_booking
+    if cinema.bookings.count >= 10
+      errors.add(:base, "You're trying to book in a Fully Booked Cinema")
+      throw(:abort)
+    end
+  end
 
-    # Convert the 'time' attribute from '10 AM' to 10
-    self.time = time.split(' ')[0].to_i
+  def lock_cinema_seat
+    if cinema.bookings.count == 10
+      cinema.update_attribute('availability', 'Fully Booked')
+    end
   end
 end

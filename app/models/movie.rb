@@ -19,4 +19,8 @@
 class Movie < ApplicationRecord
   belongs_to :cinema
   has_many :bookings
+  has_many :users, through: :bookings
+
+  validates :name, :cinema_id, presence: true
+  # validates :name, :cinema_id, presence: true
 end

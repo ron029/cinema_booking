@@ -1,0 +1,30 @@
+<% provide(:title, custom_title(@cinema.name, 'Modify')) %>
+<div class="container-fluid h-custom">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <h1>Editing <%= @cinema.name %></h1>
+    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <%= form_for [@cinema] do |f| %>
+        <%= render 'shared/error_messages', object: @cinema %>
+        <!-- Full name input -->
+        <div class="row mb-4">
+          <%= f.label :name, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.text_field :name, class: 'form-control', placeholder: '' %>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <%= f.label :availability, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.select :availability, Cinema.availabilities.keys, {prompt: "--select--"} , class: "form-control" %>
+          </div>
+        </div>
+        <div class="text-center text-lg-start mt-4 pt-2">
+          <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Update <%= @cinema.name %></button>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-9 col-lg-6 col-xl-5">
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Login to MovieMagic">
+    </div>
+  </div>
+</div>
