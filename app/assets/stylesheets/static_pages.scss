@@ -1,15 +1,59 @@
 // Place all the styles related to the static_pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
-
+@import "bootstrap-sprockets";
+@import "bootstrap";
 /* navbar */
-
-body {
-  padding-top: 60px;
-}
 
 .table-container {
   position: relative;
+}
+.cinema-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/* Style for the cinema name */
+.cinema-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Style for the movie title */
+.movie-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Style for the screening details */
+.screening-details {
+  margin-bottom: 10px;
+}
+
+/* Style for the booking list */
+.booking-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Style for each booking item */
+.booking-item {
+  margin-bottom: 5px;
+}
+
+.disabled_field {
+  background-color: grey;
+} 
+
+.cinema-box {
+  border: 1px solid gray;
+  margin-bottom: 30px;
+}
+
+/* Style for user name and email */
+.user-info {
+  font-size: 14px;
 }
 
 .cinema_hidden_id {

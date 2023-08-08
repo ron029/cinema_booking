@@ -1,25 +1,25 @@
 <% provide(:title, custom_title('Bookings')) %>
 <% if admin? %>
-    <h1>Bookings</h1>
-    <table class="table table-hover">
-      <thead>
+  <h1>Bookings</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @book.each do |book| %>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Date</th>
-          <th>Time</th>
+          <td><%= book.user.full_name %></td>
+          <td><%= book.user.email %>
+          <td><%= book.screening.date %></td>
+          <td><%= book.screening.time_slot %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @book.each do |book| %>
-          <tr>
-            <td><%= book.user.full_name %></td>
-            <td><%= book.user.email %>
-            <td><%= book.screening.date %></td>
-            <td><%= book.screening.time_slot %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 <%= paginate @book %>
