@@ -4,28 +4,27 @@
 
     <h1>New Movie</h1>
 
-    <% if @cinema.id %>
+    <% if false %>
       <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-        <p class="login_text lead fw-normal mb-0 me-3">To Cinema: <%= @cinema.name %></p>
+        <p class="login_text lead fw-normal mb-0 me-3"></p>
       </div>
     <% end %>
 
     <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-      <% if params[:cinema_id] %>
-        <%= form_for([@cinema, @movie]) do |f| %>
+        <%= form_for(@movie) do |f| %>
           <%= render 'shared/error_messages', object: @movie %>
 
           <div class="row mb-4">
-            <%= f.label :name, class: 'col-sm-4 col-form-label' %>
+            <%= f.label :title, class: 'col-sm-4 col-form-label' %>
             <div class="col-sm-8">
-              <%= f.text_field :name, class: 'form-control', placeholder: '' %>
+              <%= f.text_field :title, class: 'form-control', placeholder: '' %>
             </div>
           </div>
 
           <div class="row mb-4">
-            <%= f.label :ciname_id, 'Cinema', class: 'col-sm-4 col-form-label' %>
-              <div class="col-sm-8">
-                <p class="form-control"><%= @cinema.name %></p>
+            <%= f.label :description, class: 'col-sm-4 col-form-label' %>
+            <div class="col-sm-8">
+              <%= f.text_area :description, class: 'form-control', placeholder: '' %>
             </div>
           </div>
 
@@ -33,31 +32,6 @@
             <button type="submit" id="submit-create-movie" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Create new movie</button>
           </div>
         <% end %>
-      <% else %>
-        <%= form_for(@movie) do |f| %>
-          <%= render 'shared/error_messages', object: @movie %>
-
-          <div class="row mb-4">
-            <%= f.label :name, class: 'col-sm-4 col-form-label' %>
-            <div class="col-sm-8">
-              <%= f.text_field :name, class: 'form-control', placeholder: '' %>
-            </div>
-          </div>
-
-          <div class="row mb-4">
-            <%= f.label :name_cont, 'Cinema', class: 'col-sm-4 col-form-label' %>
-            <div class="col-sm-8">
-                <%= f.select :cinema_id, options_for_select(Cinema.all.map { |cinema| [cinema.name, cinema.id] }), {}, class: "form-control", id: "cinema-select" %>
-                <%= hidden_field_tag :cinema_id_cinema, f.object.cinema_id, id: "selected-cinema-id" %>
-            </div>
-          </div>
-
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" id="submit-create-movie" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Create new cinema</button>
-          </div>
-
-        <% end %>
-      <% end %>
     </div>
 
     <div class="col-md-9 col-lg-6 col-xl-5">

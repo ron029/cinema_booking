@@ -12,12 +12,7 @@
             <%= f.text_field :name, class: 'form-control', placeholder: '' %>
           </div>
         </div>
-        <div class="row mb-4">
-          <%= f.label :availability, class: 'col-sm-4 col-form-label' %>
-          <div class="col-sm-8">
-            <%= f.select :availability, Cinema.availabilities.keys, {prompt: "--select--"} , class: "form-control" %>
-          </div>
-        </div>
+        
         <div class="text-center text-lg-start mt-4 pt-2">
           <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Update <%= @cinema.name %></button>
         </div>

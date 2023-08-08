@@ -2,11 +2,10 @@
 #
 # Table name: cinemas
 #
-#  id           :bigint           not null, primary key
-#  availability :integer
-#  name         :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id         :bigint           not null, primary key
+#  name       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 FactoryBot.define do
   factory :cinema do

@@ -1,25 +1,86 @@
 <% provide(:title, custom_title()) %>
 <div class="container">
 <h2 class="alert alert-info">"Embrace the Movie Magic: Discover Your Exciting Cinema Bookings"</h2>
-<% @cinema.each_slice(3) do |cinemas_slice| %>
-  <div class="row">
-      <% cinemas_slice.each do |cinema| %>
+<% if !admin? %>
+  <% if current_user %>
+  <h1>My Bookings</h1>
 
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= cinema.name %></h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">Available Seat: <%= (cinema.bookings.size-10 )* -1 %></h6>
+    <% @bookings.each do |booking| %>
+      <div>
+        <h2>Cinema: <%= booking.screening.cinema.name %></h2>
+        <h3>Movie: <%= booking.screening.movie.title %></h3>
+        <p>Date: <%= booking.screening.date %></p>
+        <p>Time Slot: <%= booking.screening.time_slot %></p>
+      </div>
+    <% end %>
+    <h1>Dashboard</h1>
+    <div class="row">
+      <% @cinemas.each do |cinema| %>
+        <% if @user_bookings_cinema_ids.include?(cinema.id) %>
+          <% next %>
+        <% end %>
+        <div class="col-md-4">
+          <div class="cinema-box">
+            <h2><%= cinema.name %></h2>
+
+            <% screenings_with_bookings = cinema.screenings.includes(:bookings) %>
+            <% if screenings_with_bookings.any? %>
+              <h3>Screenings:</h3>
+              <ul>
+                <% screenings_with_bookings.each do |screening| %>
+                  <li>
+                    <%= screening.movie.title %> - <%= screening.date %> - <%= screening.time_slot %>
+                    <% screening.bookings.each do |booking| %>
+                      <p>Booking ID: <%= booking.id %>, User: <%= booking.user.full_name %>, Screening ID: <%= screening.id %></p>
+                    <% end %>
+
+                    <!-- Link to create a new book for this screening -->
+                    <%= link_to "New Booking", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <p>No screenings with bookings for this cinema.</p>
+            <% end %>
+
+            <h3>Users who made bookings:</h3>
             <ul>
-              <% cinema.movies.each do |movie| %>
-                <li>Movie Name: <%= link_to movie.name, cinema_movie_path(cinema.id, movie.id), class: 'card-link' %></li>
+              <% @users_in_cinemas[cinema].each do |user| %>
+                <li><%= user.full_name %> - <%= user.email %></li>
               <% end %>
             </ul>
           </div>
         </div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
-<%= paginate @cinema%>
+      <% end %>
+    </div>
+  <%end %>
+<% else %>
+  <h1>Admin Dashboard</h1>
 
+  <p>Total number of registered cinemas: <%= @cinema_count %></p>
+  <p>Total number of bookings: <%= @bookings_count %></p>
+  <p>Number of cinemas with bookings: <%= @cinemas_with_bookings_count %></p>
+
+   <!-- Example usage of the CSS classes -->
+  <% @cinemas.each do |cinema| %>
+    <div class="cinema-box">
+      <h2 class="cinema-name"><%= cinema.name %></h2>
+      <% cinema.screenings.each do |screening| %>
+        <div class="screening-details">
+          <h3 class="movie-title">Movie: <%= screening.movie.title %></h3>
+          <p>Date: <%= screening.date %></p>
+          <p>Time Slot: <%= screening.time_slot %></p>
+          <ul class="booking-list">
+            <% screening.bookings.each do |booking| %>
+              <li class="booking-item">
+                <span class="user-info"><%= booking.user.full_name %></span>
+                <span class="user-info"><%= booking.user.email %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+<% end %>

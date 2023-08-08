@@ -1,71 +1,31 @@
 <% provide(:title, custom_title('Movies')) %>
 <div class="container">
-  <% if params[:cinema_id] %>
-    <h1><%= pluralize(@all_movies.count, 'Movie') %> to Cinema: <%= @cinema.name %></h1>
-  <% else %>
-    <h1>Movies</h1>
-  <% end %>
-
-  <% if admin? %>
-    <% if params[:cinema_id] %>
-      <%= link_to 'New Movie', new_cinema_movie_path(@cinema), class: 'btn btn-primary' %>
-    <% end %>
-    <table class="table table-hover">
-      <thead>
+<h1>Movie</h1>
+<% if admin? %>
+<%= link_to 'New Movie', new_movie_path, class: 'btn btn-primary' %>
+<% end %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Movie Name</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @all_movies.each do |movie| %>
         <tr>
-          <th>Movie Name</th>
-          <th>Action</th>
+          <td><%= movie.title %></td>
+          <td><%= movie.description %> </td>
+          <td>
+            <%= link_to 'View', movie_path(movie), class: 'btn btn-success' %>
+            <% if admin? %>
+            <%= link_to 'Edit', edit_movie_path(movie), class: 'btn btn-warning' %>
+            <% end %>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% if params[:cinema_id] %>
-          <% @all_movies.each do |movie| %>
-            <tr>
-              <td>
-                <%= movie.name %>
-                <% if movie.bookings.count.positive? %>
-                  <p><%= link_to "#{movie.bookings.count} | Bookings", cinema_movie_books_path(@cinema.id, movie.id) %></p>
-                <% end %>
-              </td>
-              <td>
-                  <%= link_to 'View', cinema_movie_path(@cinema.id, movie.id), class: 'btn btn-success' %>
-                  <%= link_to 'Edit', edit_cinema_movie_path(@cinema.id, movie.id), class: 'btn btn-warning' %>
-                  <%= link_to 'Destroy', cinema_movie_path(@cinema.id, movie.id), method: :delete, data: { confirm: "Are you sure you want to delete this cinema?" }, class: "btn btn-danger"  %>
-              </td>
-            </tr>
-          <% end %>
-        <% else %>
-          <% @all_movies.each do |movie| %>
-            <tr>
-              <td>
-                <%= movie.name %>
-                <p><%= link_to "#{movie.cinema.name} | Cinema", cinema_path(movie.cinema.id) %></p>
-                <p><%= link_to "#{movie.bookings.count} | Bookings", movie_books_path(movie.id) %></p>
-              </td>
-              <td>
-                  <%= link_to 'View', movie_path(movie.id), class: 'btn btn-success' %>
-                  <%= link_to 'Edit', edit_movie_path(movie.id), class: 'btn btn-warning' %>
-                  <%= link_to 'Destroy', movie_path(movie.id), method: :delete, data: { confirm: "Are you sure you want to delete this cinema?" }, class: "btn btn-danger"  %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <% @all_movies.each_slice(3) do |movies_slice| %>
-      <div class="row">
-        <% movies_slice.each do |movie| %>
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title"><%= movie.name %></h5>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 <%= paginate @all_movies %>

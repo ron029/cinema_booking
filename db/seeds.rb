@@ -31,18 +31,20 @@
 #     cinema.update(availability: 1)
 #   end
 # end
-cinemas_data = []
-20.times do
-  cinemas_data << { name: Faker::Company.name, availability: ['Fully Booked', 'Available'].sample }
-end
+# cinemas_data = []
+# 20.times do
+#   cinemas_data << { name: Faker::Company.name, availability: ['Fully Booked', 'Available'].sample }
+# end
 
-Cinema.create!(cinemas_data)
+# Cinema.create!(cinemas_data)
 
-# Seed Movies
-movies_data = []
-30.times do
-  cinema = Cinema.all.sample
-  movies_data << { name: Faker::Movie.title, cinema: cinema }
-end
+# # Seed Movies
+# movies_data = []
+# 30.times do
+#   cinema = Cinema.all.sample
+#   movies_data << { name: Faker::Movie.title, cinema: cinema }
+# end
 
-Movie.create!(movies_data)
+# Movie.create!(movies_data)
+
+Movie.destroy_all

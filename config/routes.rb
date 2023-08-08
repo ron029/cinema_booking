@@ -9,22 +9,20 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/screenings/new', to: 'screenings#new', as: 'screenings_new'
   post '/screenings', to: 'screenings#create', as: 'screenings_create'
-  resources :screenings
-
-  resources :users
-  resources :movies do
-    collection do
-      get 'search'
-    end
-    resources :books
-  end
+    
   resources :cinemas do
-    resources :books, only: :index, on: :member
-  end
-  resources :books
-  resources :cinemas do
-    resources :movies do
+    resources :screenings do
       resources :books
     end
   end
+  resources :screenings do
+    resources :books
+  end
+  get 'booking_confirmation/:id', to: 'books#confirmation', as: :booking_confirmation
+  resources :users
+  resources :movies
+  resources :cinemas do
+    resources :books, only: [:new, :create]
+  end
+  resources :books
 end

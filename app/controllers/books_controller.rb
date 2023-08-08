@@ -1,38 +1,22 @@
 class BooksController < ApplicationController
-  def index
-    if params[:movie_id]
-      @movie = Movie.find(params[:movie_id])
-      @all_book = @movie.bookings.page(params[:page]).per(10)
-    elsif params[:cinema_id]
-      @cinema = Cinema.find(params[:cinema_id])
-      @all_book = @cinema.bookings.page(params[:page]).per(10)
-    else
-      @all_book = Booking.all.page(params[:page]).per(10)
-    end
-  end
+  before_action :require_login 
 
-  def show
-    @booking = Booking.where('user_id=?', current_user).order(created_at: :desc).page(params[:page]).per(9)
+  def index
+    @book = Booking.all.page(params[:page])
   end
 
   def new
-    @cinema = Cinema.find(params[:cinema_id])
-    @movie = Movie.find(params[:movie_id])
-    @book = Booking.new
-    @user = User.find(current_user.id)
+    @screening = Screening.find(params[:screening_id])
+    @booking = Booking.new
   end
 
   def create
-    @cinema = Cinema.find(params[:cinema_id])
-    @movie = Movie.find(params[:movie_id])
-    @user = User.find(current_user.id)
-    @book = Booking.new(book_params)
-    @book.cinema_id = params[:cinema_id]
-    @book.movie_id = params[:movie_id]
-    @book.user_id = @user.id
-    if @book.save
-      flash[:success] = 'Your Booking has been save.'
-      redirect_to cinema_movie_path(@book.cinema, @book.movie)
+    @screening = Screening.find(params[:screening_id])
+    @booking = @screening.bookings.build(user_id: current_user.id)
+
+    if @booking.save
+      flash[:success] = "Your booking has been save"
+      redirect_to root_url
     else
       render :new
     end
@@ -40,7 +24,14 @@ class BooksController < ApplicationController
 
   private
 
-  def book_params
-    params.require(:booking).permit(:date, :time)
+  def require_login
+    unless logged_in?
+      flash[:alert] = "Please log in to book a screening."
+      redirect_to login_path
+    end
+  end
+
+  def booking_params
+    params.require(:booking).permit(:user_id)
   end
 end

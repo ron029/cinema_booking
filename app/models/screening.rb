@@ -29,6 +29,9 @@ class Screening < ApplicationRecord
   }
   belongs_to :cinema
   belongs_to :movie
-  has_many :booking
-  validates :date, :time_slot, :cinema_id, :movie_id, presence: true
+  has_many :bookings
+
+  validates :date, presence: true
+  validates :time_slot, presence: true
+  validates :cinema_id, :movie_id, presence: true
 end

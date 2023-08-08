@@ -1,40 +1,29 @@
-<% provide(:title, custom_title(@movie.name, 'Modify')) %>
+<% provide(:title, custom_title(@movie.title, 'Modify')) %>
 <div class="container-fluid h-custom">
   <div class="row d-flex justify-content-center align-items-center h-100">
-    <h1>Editing <%= @movie.name %></h1>
+    <h1>Editing <%= @movie.title %></h1>
     <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-      <% if params[:cinema_id] %>
-        <%= form_for([@cinema, @movie]) do |f| %>
-          <%= render 'shared/error_messages', object: @movie %>
+      <%= form_for(@movie) do |f| %>
+        <%= render 'shared/error_messages', object: @movie %>
 
-          <div class="row mb-4">
-            <%= f.label :name, class: 'col-sm-4 col-form-label' %>
-            <div class="col-sm-8">
-              <%= f.text_field :name, class: 'form-control', placeholder: '' %>
-            </div>
+        <div class="row mb-4">
+          <%= f.label :title, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.text_field :title, class: 'form-control', placeholder: '' %>
           </div>
+        </div>
 
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Update <%= @movie.name %></button>
+        <div class="row mb-4">
+          <%= f.label :description, class: 'col-sm-4 col-form-label' %>
+          <div class="col-sm-8">
+            <%= f.text_field :description, class: 'form-control', placeholder: '' %>
           </div>
+        </div>
 
-        <% end %>
-      <% else %>
-        <%= form_for(@movie) do |f| %>
-          <%= render 'shared/error_messages', object: @movie %>
+        <div class="text-center text-lg-start mt-4 pt-2">
+          <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Update</button>
+        </div>
 
-          <div class="row mb-4">
-            <%= f.label :name, class: 'col-sm-4 col-form-label' %>
-            <div class="col-sm-8">
-              <%= f.text_field :name, class: 'form-control', placeholder: '' %>
-            </div>
-          </div>
-
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Update <%= @movie.name %></button>
-          </div>
-
-        <% end %>
       <% end %>
     </div>
     <div class="col-md-9 col-lg-6 col-xl-5">

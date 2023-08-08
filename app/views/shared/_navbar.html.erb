@@ -9,8 +9,6 @@
         <% if admin? %>
           <li class="nav-item"> <%= link_to 'Bookings', books_path, class: "nav-link" %> </li>
           <li class="nav-item"> <%= link_to 'Screenings', screenings_new_path, class: "nav-link" %> </li>
-        <% elsif current_user %>
-          <li class="nav-item"> <%= link_to 'Bookings', book_path(current_user), class: "nav-link" %> </li>
         <% end %>
         <%# <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>

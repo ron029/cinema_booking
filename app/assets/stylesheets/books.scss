@@ -3,4 +3,38 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 .disabled_field {
   background-color: grey;
+} 
+
+.cinema-box {
+  border: 1px solid gray;
+  margin-bottom: 30px;
 }
+// .cinemas-container {
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
+// }
+
+// /* Style for each cinema box */
+// .cinema-box {
+//   width: 30%;
+//   border: 1px solid #ccc;
+//   padding: 10px;
+//   margin-bottom: 20px;
+// }
+
+// /* Style for the "New Booking" link */
+// .new-booking-link {
+//   display: block;
+//   text-align: center;
+//   padding: 10px;
+//   background-color: #007bff;
+//   color: #fff;
+//   text-decoration: none;
+//   border-radius: 5px;
+//   margin-top: 10px;
+// }
+
+// .new-booking-link:hover {
+//   background-color: #0056b3;
+// }

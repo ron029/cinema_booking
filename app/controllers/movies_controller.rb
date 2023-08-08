@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  before_action :require_admin, only: %i[create edit new update destroy]
   def index
     if params[:cinema_id]
       @cinema = Cinema.find(params[:cinema_id])
@@ -9,42 +10,21 @@ class MoviesController < ApplicationController
   end
 
   def new
-    @cinema = params[:cinema_id] ? Cinema.find(params[:cinema_id]) : Cinema.new
-    @movie = @cinema.movies.new
-    @q = Cinema.ransack(params[:q])
+    @movie = Movie.new
   end
 
   def create
-    @cinema = params[:cinema_id] ? Cinema.find(params[:cinema_id]) : Cinema.new
-    @movie = @cinema.movies.build(movie_params)
-    @q = Cinema.ransack(params[:q])
+    @movie = Movie.new(movie_params)
     if @movie.save
       flash[:success] = 'New movie has been saved.'
-      if params[:cinema_id]
-        redirect_to cinema_movies_path(@cinema)
-      else
-        redirect_to movies_path
-      end
+      redirect_to movies_path
     else
-      if params[:cinema_id]
-        render :new, locals: { cinema: @cinema }
-      else
-        render :new
-      end
+      render :new
     end
   end
 
   def show
-    if params[:cinema_id] && params[:id]
-      @cinema = Cinema.find(params[:cinema_id])
-      @movie = Movie.find(params[:id])
-    elsif params[:cinema_id]
-      @movie = Movie.where('cinema_id=? AND id=?', params[:cinema_id], params[:id])
-      @cinema = Cinema.find(params[:cinema_id])
-      @seat = Booking.where('cinema_id=?', params[:id])
-    else
-      @movie = Movie.find(params[:id])
-    end
+    @movie = Movie.find(params[:id])
   end
 
   def edit
@@ -82,7 +62,14 @@ class MoviesController < ApplicationController
 
   private
 
+  def require_admin
+    unless current_user&.admin?
+      flash[:alert] = "Access denied. You must be an admin to perform this action."
+      redirect_to root_path
+    end
+  end
+  
   def movie_params
-    params.require(:movie).permit(:name, :cinema_id)
+    params.require(:movie).permit(:title, :description)
   end
 end

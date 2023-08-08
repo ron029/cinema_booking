@@ -10,35 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_07_214904) do
+ActiveRecord::Schema.define(version: 2023_08_07_232443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "cinema_id", null: false
     t.bigint "user_id", null: false
-    t.bigint "movie_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["cinema_id"], name: "index_bookings_on_cinema_id"
-    t.index ["movie_id"], name: "index_bookings_on_movie_id"
+    t.bigint "screening_id"
+    t.index ["screening_id"], name: "index_bookings_on_screening_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "cinemas", force: :cascade do |t|
-    t.integer "availability"
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "movies", force: :cascade do |t|
-    t.string "name"
-    t.bigint "cinema_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["cinema_id"], name: "index_movies_on_cinema_id"
+    t.string "title"
+    t.text "description"
   end
 
   create_table "screenings", force: :cascade do |t|
@@ -62,10 +58,8 @@ ActiveRecord::Schema.define(version: 2023_08_07_214904) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "bookings", "cinemas"
-  add_foreign_key "bookings", "movies"
+  add_foreign_key "bookings", "screenings"
   add_foreign_key "bookings", "users"
-  add_foreign_key "movies", "cinemas"
   add_foreign_key "screenings", "cinemas"
   add_foreign_key "screenings", "movies"
 end

@@ -1,6 +1,7 @@
 class CinemasController < ApplicationController
+  before_action :require_admin, only: %i[create edit new update destroy]
   def index
-    @cinemas = admin? ? Cinema.includes(:bookings).page(params[:page]).per(12) : Cinema.page(params[:page]).per(12)
+    @cinemas = Cinema.all.page(params[:page]).per(10)
   end
 
   def new
@@ -35,10 +36,17 @@ class CinemasController < ApplicationController
       render :edit
     end
   end
-
+  
   private
 
+  def require_admin
+    unless current_user&.admin?
+      flash[:alert] = "Access denied. You must be an admin to perform this action."
+      redirect_to root_path
+    end
+  end
+
   def cinema_params
-    params.require(:cinema).permit(:name, :availability)
+    params.require(:cinema).permit(:name)
   end
 end
