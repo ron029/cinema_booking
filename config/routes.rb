@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/screenings/new', to: 'screenings#new', as: 'screenings_new'
   post '/screenings', to: 'screenings#create', as: 'screenings_create'
-    
   resources :cinemas do
     resources :screenings do
       resources :books
@@ -22,7 +21,7 @@ Rails.application.routes.draw do
   resources :users
   resources :movies
   resources :cinemas do
-    resources :books, only: [:new, :create]
+    resources :books, only: %i[new create]
   end
   resources :books
 end

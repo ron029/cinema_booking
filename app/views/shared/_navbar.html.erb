@@ -26,7 +26,9 @@
 <% else %>
   <% if current_user %>
       <div class="d-flex">
-        <%= link_to "Log out", logout_path, method: :delete, class: "form-control btn btn-primary" %>
+        <%#= link_to "Log out", logout_path, method: :delete, class: "form-control btn btn-primary" %>
+        <%= link_to "Log out", logout_path, method: :delete, class: "btn btn-primary" %>
+
       </div>
   <% end %>
 <% end %>
