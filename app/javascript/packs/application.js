@@ -4,8 +4,6 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-global.Rails = Rails;
-
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
@@ -15,19 +13,6 @@ import 'jquery/src/jquery'
 import "../../assets/stylesheets/application";
 import './src/application.scss';
 import './custom'
-
-document.addEventListener('DOMContentLoaded', function() {
-  const cinemaSelect = document.getElementById('cinema-select');
-  const selectedCinemaId = document.getElementById('selected-cinema-id');
-
-  // Set the initial value of the hidden field
-  selectedCinemaId.value = cinemaSelect.value;
-
-  cinemaSelect.addEventListener('change', function() {
-    selectedCinemaId.value = this.value;
-  });
-});
-
 // document.addEventListener("turbolinks:load", function () {
 //   const searchInput = document.getElementById("q_name_cont");
 
