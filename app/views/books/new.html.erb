@@ -2,25 +2,29 @@
 
 <div class="container-fluid h-custom">
   <div class="row d-flex justify-content-center align-items-center h-100">
-    <h1>New Booking</h1>
-      <%= form_with model: @booking, url: screening_books_path(@screening) do |form| %>
-        <%= render 'shared/error_messages', object: @booking %>
-        <h2>Screening Details</h2>
-        <p>Title: <%= @screening.movie.title %></p>
-        <p>Date: <%= @screening.date %></p>
+    <%= form_with model: @booking, url: screening_books_path(@screening, cinema_id: @cinema.id) do |form| %>
+      <%= render 'shared/error_messages', object: @booking %>
+      <h2>Screening Details</h2>
+      <p>Title: <%= @screening.movie.title %></p>
+      <p>Date: <%= @screening.date %></p>
 
-        <%= form.label :seat_number %>
-        <% booked_seat_numbers = Booking.where(screening_id: @screening.id, seat_number: (1..10).to_a).pluck(:seat_number) %>
-        <% available_seat_numbers = (1..10).to_a - booked_seat_numbers %>
+      <% available_seats = @movie_seat_counts[@screening.movie.id][@screening.time_slot] || 0 %>
+      <p>Available Seats: <%= available_seats %></p>
 
-        <%= form.select :seat_number, options_for_select(available_seat_numbers), {}, class: '' %>
+      <%= form.label :seat_number %>
+      <% taken_seats = current_user.bookings.where(screening_id: @screening.cinema.screenings.pluck(:id)).pluck(:seat_number) %>
+      <% available_seats = (1..10).to_a - taken_seats %>
+      <% screening_taken_seats = @screening.bookings.pluck(:seat_number) %>
+      <% available_seats -= screening_taken_seats %>
+      <%= form.select :seat_number, options_for_select(available_seats), {}, class: '' %>
 
-        <%= form.label :time_slot %>
-        <%= form.select :time_slot, Booking.time_slots.keys, {}, class: '' %>
-        <%= form.hidden_field :screening_id, value: @screening.id %>
-        <%#= puts booking_error_messages(@booking) %>
-        <%= form.submit "Book Now", class: "book-now-button" %>
-      <% end %>
+      <%= form.label :time_slot %>
+      <%= form.select :time_slot, Booking.time_slots.keys, {}, class: '' %>
+      
+      <%= form.hidden_field :screening_id, value: @screening.id %>
+      
+      <%= form.submit "Book Now", class: "book-now-button" %>
+    <% end %>
     <div class="col-md-9 col-lg-6 col-xl-5">
       <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Login to MovieMagic">
     </div>

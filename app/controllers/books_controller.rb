@@ -10,6 +10,20 @@ class BooksController < ApplicationController
   end
 
   def new
+    # In your controller action
+    @cinema = Cinema.find(params[:cinema_id])
+    @movies = @cinema.movies
+
+    @movie_seat_counts = {}
+    @movies.each do |movie|
+      @movie_seat_counts[movie.id] = {}
+      movie.screenings.each do |screening|
+        booked_seats = Booking.where(screening_id: screening.id).pluck(:seat_number)
+        available_seats = (1..10).to_a - booked_seats
+        @movie_seat_counts[movie.id][screening.time_slot] = available_seats.count
+      end
+    end
+
     @screening = Screening.find(params[:screening_id])
     @booking = Booking.new
   end

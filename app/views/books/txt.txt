@@ -1,0 +1,6 @@
+<%= form.label :seat_number %>
+<% taken_seats = current_user.bookings.where(screening_id: @screening.cinema.screenings.pluck(:id)).pluck(:seat_number) %>
+<% available_seats = (1..10).to_a - taken_seats %>
+<% screening_taken_seats = @screening.bookings.pluck(:seat_number) %>
+<% available_seats -= screening_taken_seats %>
+<%= form.select :seat_number, options_for_select(available_seats), {}, class: '' %>

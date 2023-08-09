@@ -10,7 +10,8 @@
         <h2>Cinema: <%= booking.screening.cinema.name %></h2>
         <h3>Movie: <%= booking.screening.movie.title %></h3>
         <p>Date: <%= booking.screening.date %></p>
-        <p>Time Slot: <%= booking.screening.time_slot %></p>
+        <p>Seat Number: <%= booking.seat_number %>
+        <p>Time Slot: <%= booking.time_slot %></p>
       </div>
     <% end %>
     <%= paginate @bookings %>
@@ -43,7 +44,7 @@
                       <% if cinema.bookings.count == 10 %>
                         <p style="color:red;">Close</p>
                       <% else %>
-                        <%= link_to "Join the Cinema Experience! Click Here!", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
+                        <%= link_to "Join the Cinema Experience! Click Here!", new_screening_book_path(screening_id: screening.id, cinema_id: cinema.id), class: "new-booking-link" %>
                       <% end %>
                   <% end %>
                   </ul>
