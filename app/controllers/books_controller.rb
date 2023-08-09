@@ -18,15 +18,24 @@ class BooksController < ApplicationController
     @screening = Screening.find(params[:screening_id])
     @booking = @screening.bookings.build(user_id: current_user.id)
 
-    if @booking.save
-      flash[:success] = 'Your booking has been save'
-      redirect_to root_url
+    if @booking.valid? && screening_available?(@screening)
+      if @booking.valid? && @booking.save
+        flash[:success] = 'Your booking has been save'
+        redirect_to root_url
+      else
+        render :new
+      end
     else
-      render :new
+      flash[:danger] = booking_error_messages(@booking)
+      redirect_to new_screening_book_path(@screening)
     end
   end
 
-  private
+  protected
+
+  def screening_available?(screening)
+    screening.cinema.bookings.count < 10
+  end
 
   def admin_only
     unless admin?

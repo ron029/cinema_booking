@@ -10,4 +10,12 @@ module BooksHelper
     time = Time.new(1970, 1, 1, hour, 0, 0)
     time.strftime('%I:%M:%S %p')
   end
+
+  def booking_error_messages(booking)
+    if booking.errors.any?
+      booking.errors.full_messages.to_sentence
+    else
+      'The cinema is fully booked for this screening.'
+    end
+  end
 end

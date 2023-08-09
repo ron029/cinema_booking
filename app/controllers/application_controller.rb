@@ -3,6 +3,7 @@
 # This class represent the main controller of the app
 class ApplicationController < ActionController::Base
   include UsersHelper
+  include BooksHelper
   def route_not_found
     render file: "#{Rails.root}/public/404.html", status: :not_found
   end

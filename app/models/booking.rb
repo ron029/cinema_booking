@@ -21,7 +21,7 @@
 
 # This class respresent the bookings in the app
 class Booking < ApplicationRecord
-  before_save :check_and_cancel_booking
+  # before_save :check_and_cancel_booking
 
   enum time: {
     '10 AM' => 10,
@@ -35,12 +35,12 @@ class Booking < ApplicationRecord
 
   validates :user_id, :screening_id, presence: true
 
-  private
+  # protected
 
-  def check_and_cancel_booking
-    if screening.cinema.bookings.count >= 10
-      errors.add(:base, "The cinema is fully booked for this screening.")
-      throw :abort
-    end
-  end
+  # def check_and_cancel_booking
+  #   if screening.cinema.bookings.count >= 10
+  #     errors.add(:base, 'The cinema is fully booked for this screening.')
+  #     false
+  #   end
+  # end
 end

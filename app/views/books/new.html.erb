@@ -11,7 +11,8 @@
 
       <%= form_with model: @booking, url: screening_books_path(@screening) do |form| %>
         <%= form.hidden_field :screening_id, value: @screening.id %>
-
+        <%= puts booking_error_messages(@booking) %>
+        <%= render 'shared/error_messages', object: @booking %>
         <%= form.submit "Book Now", class: "book-now-button" %>
       <% end %>
     <div class="col-md-9 col-lg-6 col-xl-5">

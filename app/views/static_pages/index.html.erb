@@ -31,7 +31,9 @@
               <% if screenings_with_bookings.any? %>
                 <h3>Screenings:</h3>
                 <ul>
+                <p style="color:red"><%= @a=cinema.bookings.count > 10 ? 'Fully booked' : 'Available' %></p>
                   <% screenings_with_bookings.each do |screening| %>
+                    
                     <li>
                       <%= screening.movie.title %> - <%= screening.date %> - <%= screening.time_slot %>
 
@@ -45,7 +47,11 @@
                       <% end %>
 
                       <!-- Link to create a new book for this screening -->
-                      <%= link_to "Join the Cinema Experience! Click Here!", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
+                      <% if cinema.bookings.count > 10 %>
+                        <p style="color:red;">Close</p>
+                      <% else %>
+                        <%= link_to "Join the Cinema Experience! Click Here!", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
+                      <% end %>
                     </li>
                   <% end %>
                 </ul>
