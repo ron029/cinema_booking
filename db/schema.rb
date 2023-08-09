@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_07_232443) do
+ActiveRecord::Schema.define(version: 2023_08_09_102518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2023_08_07_232443) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "cinema_id", null: false
     t.bigint "movie_id", null: false
+    t.index ["cinema_id", "movie_id", "date", "time_slot"], name: "unique_screening_constraint", unique: true
     t.index ["cinema_id"], name: "index_screenings_on_cinema_id"
     t.index ["movie_id"], name: "index_screenings_on_movie_id"
   end

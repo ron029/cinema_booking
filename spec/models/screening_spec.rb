@@ -14,6 +14,7 @@
 #
 #  index_screenings_on_cinema_id  (cinema_id)
 #  index_screenings_on_movie_id   (movie_id)
+#  unique_screening_constraint    (cinema_id,movie_id,date,time_slot) UNIQUE
 #
 # Foreign Keys
 #

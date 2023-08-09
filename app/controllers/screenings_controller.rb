@@ -16,7 +16,7 @@ class ScreeningsController < ApplicationController
     @movies = params[:screening][:movie_id]
     @screening = Screening.new(screening_params)
 
-    if @screening.save
+    if @screening.valid? && @screening.save
       flash[:success] = 'Screening created successfully!'
       redirect_to screenings_new_path
     else
