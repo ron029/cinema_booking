@@ -47,4 +47,4 @@
 
 # Movie.create!(movies_data)
 
-Movie.destroy_all
+# Movie.destroy_all

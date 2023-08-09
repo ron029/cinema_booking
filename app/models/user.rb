@@ -21,9 +21,6 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = regex_email.freeze
 
   has_many :bookings
-
-
-
   validates :full_name, presence: true, length: { minimum: 2, maximum: 100 }
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :mobile_number, presence: true

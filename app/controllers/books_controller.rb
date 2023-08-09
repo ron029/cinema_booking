@@ -17,7 +17,7 @@ class BooksController < ApplicationController
   def create
     @screening = Screening.find(params[:screening_id])
     @booking = @screening.bookings.build(user_id: current_user.id)
-
+    
     if @booking.valid? && screening_available?(@screening)
       if @booking.valid? && @booking.save
         flash[:success] = 'Your booking has been save'

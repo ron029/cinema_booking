@@ -11,10 +11,13 @@ class StaticPagesController < ApplicationController
       @users_in_cinemas = {}
 
       if current_user
-        @bookings = Booking.includes(screening: [{ cinema: :movies }]).where(user_id: current_user.id)
+        @bookings = Booking.includes(screening: [{ cinema: :movies }])
+                           .where(user_id: current_user.id)
+                           .order(created_at: :desc)
+                           .page(params[:page]).per(3)
         @user_bookings_cinema_ids = current_user.bookings.pluck(:screening_id).map { |screening_id| Screening.find(screening_id).cinema_id }.uniq
       end
-
+      @cinemas = Cinema.all
       @cinemas.each do |cinema|
         screenings_with_bookings = cinema.screenings.includes(:bookings)
         users_for_screenings = screenings_with_bookings.map { |screening| screening.bookings.map(&:user) }.flatten.uniq
@@ -34,14 +37,14 @@ class StaticPagesController < ApplicationController
 
   def admin_only
     unless admin?
-      flash[:danger] = "Access denied. You must be an admin to perform this action."
+      flash[:danger] = 'Access denied. You must be an admin to perform this action.'
       redirect_to login_path
     end
   end
 
   def require_login
     unless logged_in?
-      flash[:danger] = "Please log in to book a screening."
+      flash[:danger] = 'Please log in to book a screening.'
       redirect_to login_path
     end
   end

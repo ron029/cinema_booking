@@ -13,6 +13,7 @@
         <p>Time Slot: <%= booking.screening.time_slot %></p>
       </div>
     <% end %>
+    <%= paginate @bookings %>
   <% end %>
     <h1>Dashboard</h1>
     <div class="row">
@@ -31,12 +32,12 @@
               <% if screenings_with_bookings.any? %>
                 <h3>Screenings:</h3>
                 <ul>
-                <p style="color:red"><%= @a=cinema.bookings.count == 10 ? 'Fully booked' : 'Available' %></p>
+                  <p style="color:red"><%= @a=cinema.bookings.count == 10 ? 'Fully booked' : 'Available' %></p>
                   <% screenings_with_bookings.each do |screening| %>
-                    
-                    <li>
+                    <% if Booking.exists?(screening_id: screening.id) %>
+                      <% next %>
+                    <% else %>
                       <%= screening.movie.title %> - <%= screening.date %> - <%= screening.time_slot %>
-
                       <!--DISPLAY INFO OF USER WHO SEAT -->
                       <% if admin? %>
                         <% screening.bookings.each do |booking| %>
@@ -45,16 +46,15 @@
                       <% else %>
                       : Currently <%= pluralize(screening.bookings.count, 'seat') %> 
                       <% end %>
-
                       <!-- Link to create a new book for this screening -->
                       <% if cinema.bookings.count == 10 %>
                         <p style="color:red;">Close</p>
                       <% else %>
                         <%= link_to "Join the Cinema Experience! Click Here!", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
                       <% end %>
-                    </li>
+                    <%end %>
                   <% end %>
-                </ul>
+                  </ul>
               <% else %>
                 <p>No screenings with bookings for this cinema.</p>
               <% end %>
@@ -77,7 +77,6 @@
   <p>Total number of bookings: <%= @bookings_count %></p>
   <p>Number of cinemas with bookings: <%= @cinemas_with_bookings_count %></p>
 
-   <!-- Example usage of the CSS classes -->
   <% @cinemas.each do |cinema| %>
     <div class="cinema-box" style="display: <%= @a=cinema.screenings.count > 0 ? 'inline-block;' : 'none;'%>">
       <h2 class="cinema-name"><%= cinema.name %></h2>
