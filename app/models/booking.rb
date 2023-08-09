@@ -3,6 +3,8 @@
 # Table name: bookings
 #
 #  id           :bigint           not null, primary key
+#  seat_number  :integer
+#  time_slot    :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  screening_id :bigint
@@ -22,8 +24,7 @@
 # This class respresent the bookings in the app
 class Booking < ApplicationRecord
   # before_save :check_and_cancel_booking
-
-  enum time: {
+  enum time_slot: {
     '10 AM' => 10,
     '7 PM' => 19,
     '10 PM' => 22,
@@ -32,8 +33,9 @@ class Booking < ApplicationRecord
 
   belongs_to :user
   belongs_to :screening
+  has_many :seat
 
-  validates :user_id, :screening_id, presence: true
+  validates :user_id, :screening_id, :time_slot, :seat_number, presence: true
 
   # protected
 

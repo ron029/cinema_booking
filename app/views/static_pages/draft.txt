@@ -23,3 +23,4 @@
 <% end %>
 <%= paginate @cinema%>
 
+style="display: <%= @a = screenings_with_bookings.count > 0 ? 'inline-block;' : 'none;' %>"

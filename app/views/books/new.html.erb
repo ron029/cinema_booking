@@ -3,16 +3,22 @@
 <div class="container-fluid h-custom">
   <div class="row d-flex justify-content-center align-items-center h-100">
     <h1>New Booking</h1>
-
-      <h2>Screening Details</h2>
-      <p>Title: <%= @screening.movie.title %></p>
-      <p>Date: <%= @screening.date %></p>
-      <p>Time Slot: <%= @screening.time_slot %></p>
-
       <%= form_with model: @booking, url: screening_books_path(@screening) do |form| %>
-        <%= form.hidden_field :screening_id, value: @screening.id %>
-        <%= puts booking_error_messages(@booking) %>
         <%= render 'shared/error_messages', object: @booking %>
+        <h2>Screening Details</h2>
+        <p>Title: <%= @screening.movie.title %></p>
+        <p>Date: <%= @screening.date %></p>
+
+        <%= form.label :seat_number %>
+        <% booked_seat_numbers = Booking.where(screening_id: @screening.id, seat_number: (1..10).to_a).pluck(:seat_number) %>
+        <% available_seat_numbers = (1..10).to_a - booked_seat_numbers %>
+
+        <%= form.select :seat_number, options_for_select(available_seat_numbers), {}, class: '' %>
+
+        <%= form.label :time_slot %>
+        <%= form.select :time_slot, Booking.time_slots.keys, {}, class: '' %>
+        <%= form.hidden_field :screening_id, value: @screening.id %>
+        <%#= puts booking_error_messages(@booking) %>
         <%= form.submit "Book Now", class: "book-now-button" %>
       <% end %>
     <div class="col-md-9 col-lg-6 col-xl-5">

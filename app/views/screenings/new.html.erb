@@ -18,11 +18,6 @@
   </div>
 
   <div>
-    <%= form.label :time_slot %>
-    <%= form.select :time_slot, Screening.time_slots.keys, prompt: true %>
-  </div>
-
-  <div>
     <%= form.submit "Create Screening" %>
   </div>
 <% end %>

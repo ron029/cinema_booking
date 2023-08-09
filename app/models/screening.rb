@@ -33,6 +33,5 @@ class Screening < ApplicationRecord
   has_many :bookings
 
   validates :date, presence: true
-  validates :time_slot, presence: true
   validates :cinema_id, :movie_id, presence: true
 end

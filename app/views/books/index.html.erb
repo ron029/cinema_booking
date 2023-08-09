@@ -6,8 +6,10 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Date</th>
-        <th>Time</th>
+        <th>Time Slot</th>
+        <th>Seat Number</th>
+        <th>Movie Name</th>
+        <th>Cinema</th>
       </tr>
     </thead>
     <tbody>
@@ -15,8 +17,10 @@
         <tr>
           <td><%= book.user.full_name %></td>
           <td><%= book.user.email %>
-          <td><%= book.screening.date %></td>
-          <td><%= book.screening.time_slot %></td>
+          <td><%= book.time_slot %></td>
+          <td><%= book.seat_number %></td>
+          <td><%= book.screening.movie.title %>
+          <td><%= book.screening.cinema.name %></td>
         </tr>
       <% end %>
     </tbody>

@@ -16,18 +16,14 @@ class BooksController < ApplicationController
 
   def create
     @screening = Screening.find(params[:screening_id])
-    @booking = @screening.bookings.build(user_id: current_user.id)
-    
-    if @booking.valid? && screening_available?(@screening)
-      if @booking.valid? && @booking.save
-        flash[:success] = 'Your booking has been save'
-        redirect_to root_url
-      else
-        render :new
-      end
+    @booking = @screening.bookings.build(booking_params)
+    @booking.user_id = current_user.id
+
+    if @booking.valid? && @booking.save
+      flash[:success] = 'Your booking has been save'
+      redirect_to root_url
     else
-      flash[:danger] = booking_error_messages(@booking)
-      redirect_to new_screening_book_path(@screening)
+      render :new
     end
   end
 
@@ -52,6 +48,6 @@ class BooksController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:user_id)
+    params.require(:booking).permit(:seat_number, :time_slot)
   end
 end

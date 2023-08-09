@@ -3,6 +3,8 @@
 # Table name: bookings
 #
 #  id           :bigint           not null, primary key
+#  seat_number  :integer
+#  time_slot    :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  screening_id :bigint
