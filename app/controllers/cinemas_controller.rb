@@ -1,5 +1,10 @@
+# Frozen_string_literal: true
+
+# This class represent the cinemas in the app.
 class CinemasController < ApplicationController
-  before_action :require_admin, only: %i[create edit new update destroy]
+  before_action :require_login, except: %i[index show]
+  before_action :admin_only, except: %i[index show]
+
   def index
     @cinemas = Cinema.all.page(params[:page]).per(10)
   end
@@ -36,13 +41,20 @@ class CinemasController < ApplicationController
       render :edit
     end
   end
-  
+
   private
 
-  def require_admin
-    unless current_user&.admin?
-      flash[:alert] = "Access denied. You must be an admin to perform this action."
-      redirect_to root_path
+  def admin_only
+    unless admin?
+      flash[:danger] = "Access denied. You must be an admin to perform this action."
+      redirect_to login_path
+    end
+  end
+
+  def require_login
+    unless logged_in?
+      flash[:danger] = "Please log in to book a screening."
+      redirect_to login_path
     end
   end
 

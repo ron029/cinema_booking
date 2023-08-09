@@ -2,6 +2,9 @@
 
 # This class represent the User controller of the app.
 class UsersController < ApplicationController
+  before_action :require_login, except: %i[index new create]
+  before_action :admin_only, except: %i[index new create]
+
   def index
     redirect_to signup_path
   end
@@ -25,6 +28,20 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def admin_only
+    unless admin?
+      flash[:danger] = "Access denied. You must be an admin to perform this action."
+      redirect_to login_path
+    end
+  end
+
+  def require_login
+    unless logged_in?
+      flash[:danger] = "Please log in to book a screening."
+      redirect_to login_path
+    end
+  end
 
   def user_params
     params.require(:user).permit(:full_name, :email, :mobile_number, :password, :password_confirmation)

@@ -9,19 +9,20 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/screenings/new', to: 'screenings#new', as: 'screenings_new'
   post '/screenings', to: 'screenings#create', as: 'screenings_create'
-  resources :cinemas do
-    resources :screenings do
-      resources :books
-    end
-  end
-  resources :screenings do
-    resources :books
-  end
-  get 'booking_confirmation/:id', to: 'books#confirmation', as: :booking_confirmation
-  resources :users
-  resources :movies
-  resources :cinemas do
+  # resources :cinemas, only: %i[] do
+  #   resources :screenings, only: %i[] do
+  #     resources :books, only: %i[]
+  #   end
+  # end
+  resources :screenings, only: %i[] do
     resources :books, only: %i[new create]
   end
-  resources :books
+  get 'booking_confirmation/:id', to: 'books#confirmation', as: :booking_confirmation
+  resources :users, only: %i[new index create]
+  resources :movies, only: %i[show index new edit create update]
+  resources :cinemas, only: %i[show index new edit create update] do
+    resources :books, only: %i[]
+  end
+  resources :books, only: %i[index]
+  match '*path', to: 'application#route_not_found', via: :all
 end

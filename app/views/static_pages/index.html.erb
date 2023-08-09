@@ -3,7 +3,7 @@
 <h2 class="alert alert-info">"Embrace the Movie Magic: Discover Your Exciting Cinema Bookings"</h2>
 <% if !admin? %>
   <% if current_user %>
-  <h1>My Bookings</h1>
+    <h1>My Bookings</h1>
 
     <% @bookings.each do |booking| %>
       <div>
@@ -13,47 +13,57 @@
         <p>Time Slot: <%= booking.screening.time_slot %></p>
       </div>
     <% end %>
+  <% end %>
     <h1>Dashboard</h1>
     <div class="row">
       <% @cinemas.each do |cinema| %>
-        <% if @user_bookings_cinema_ids.include?(cinema.id) %>
-          <% next %>
+        <% if current_user %>
+          <% if @user_bookings_cinema_ids.include?(cinema.id) %>
+            <% next %>
+          <% end %>
         <% end %>
-        <div class="col-md-4">
-          <div class="cinema-box">
+        <% screenings_with_bookings = cinema.screenings.includes(:bookings) %>
+        <div class="col-md-4" style="display: <%= @a = screenings_with_bookings.count > 0 ? 'inline-block;' : 'none;' %>">
+          <div class="cinema-box" >
             <h2><%= cinema.name %></h2>
 
-            <% screenings_with_bookings = cinema.screenings.includes(:bookings) %>
-            <% if screenings_with_bookings.any? %>
-              <h3>Screenings:</h3>
-              <ul>
-                <% screenings_with_bookings.each do |screening| %>
-                  <li>
-                    <%= screening.movie.title %> - <%= screening.date %> - <%= screening.time_slot %>
-                    <% screening.bookings.each do |booking| %>
-                      <p>Booking ID: <%= booking.id %>, User: <%= booking.user.full_name %>, Screening ID: <%= screening.id %></p>
-                    <% end %>
+              <!-- DISPLAY CINEMA WITH BOOKINGS-->
+              <% if screenings_with_bookings.any? %>
+                <h3>Screenings:</h3>
+                <ul>
+                  <% screenings_with_bookings.each do |screening| %>
+                    <li>
+                      <%= screening.movie.title %> - <%= screening.date %> - <%= screening.time_slot %>
 
-                    <!-- Link to create a new book for this screening -->
-                    <%= link_to "New Booking", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
-                  </li>
+                      <!--DISPLAY INFO OF USER WHO SEAT -->
+                      <% if admin? %>
+                        <% screening.bookings.each do |booking| %>
+                          <p>Booking ID: <%= booking.id %>, User: <%= booking.user.full_name %>, Screening ID: <%= screening.id %></p>
+                        <% end %>
+                      <% else %>
+                      : Currently <%= pluralize(screening.bookings.count, 'seat') %> 
+                      <% end %>
+
+                      <!-- Link to create a new book for this screening -->
+                      <%= link_to "Join the Cinema Experience! Click Here!", new_screening_book_path(screening_id: screening.id), class: "new-booking-link" %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% else %>
+                <p>No screenings with bookings for this cinema.</p>
+              <% end %>
+            <% if admin? %>
+              <h3>Users who made bookings:</h3>
+              <ul>
+                <% @users_in_cinemas[cinema].each do |user| %>
+                  <li><%= user.full_name %> - <%= user.email %></li>
                 <% end %>
               </ul>
-            <% else %>
-              <p>No screenings with bookings for this cinema.</p>
             <% end %>
-
-            <h3>Users who made bookings:</h3>
-            <ul>
-              <% @users_in_cinemas[cinema].each do |user| %>
-                <li><%= user.full_name %> - <%= user.email %></li>
-              <% end %>
-            </ul>
           </div>
         </div>
       <% end %>
     </div>
-  <%end %>
 <% else %>
   <h1>Admin Dashboard</h1>
 
@@ -63,7 +73,7 @@
 
    <!-- Example usage of the CSS classes -->
   <% @cinemas.each do |cinema| %>
-    <div class="cinema-box">
+    <div class="cinema-box" style="display: <%= @a=cinema.screenings.count > 0 ? 'inline-block;' : 'none;'%>">
       <h2 class="cinema-name"><%= cinema.name %></h2>
       <% cinema.screenings.each do |screening| %>
         <div class="screening-details">
@@ -71,6 +81,7 @@
           <p>Date: <%= screening.date %></p>
           <p>Time Slot: <%= screening.time_slot %></p>
           <ul class="booking-list">
+            <p>Currently <%= pluralize(screening.bookings.count, 'seat') %> at this time.</p>
             <% screening.bookings.each do |booking| %>
               <li class="booking-item">
                 <span class="user-info"><%= booking.user.full_name %></span>

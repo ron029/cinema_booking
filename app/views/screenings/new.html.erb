@@ -1,5 +1,5 @@
 <h1>Create a New Screening</h1>
-
+<p class="alert alert-info">Please fill all the fields to create new booking.</p>
 <%= form_with(model: @screening, url: screenings_create_path) do |form| %>
   <%= render 'shared/error_messages',object: @screening%>
   <div>

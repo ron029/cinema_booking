@@ -2,7 +2,7 @@
 
 # This class represent the session of the user in the app.
 class SessionsController < ApplicationController
-  def new; 
+  def new
     redirect_to root_url if current_user
   end
 
@@ -21,5 +21,21 @@ class SessionsController < ApplicationController
   def destroy
     log_out
     redirect_to root_url
+  end
+
+  private
+
+  def admin_only
+    unless admin?
+      flash[:danger] = "Access denied. You must be an admin to perform this action."
+      redirect_to login_path
+    end
+  end
+
+  def require_login
+    unless logged_in?
+      flash[:danger] = "Please log in to book a screening."
+      redirect_to login_path
+    end
   end
 end
