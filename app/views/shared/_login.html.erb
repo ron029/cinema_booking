@@ -3,18 +3,18 @@
     <div class="col-md-9 col-lg-6 col-xl-5">
       <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Login to MovieMagic">
     </div>
-    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 signin-form">
       <%= form_for(:session, url: login_path) do |f| %>
         <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
           <p class="login_text lead fw-normal mb-0 me-3">Sign in to continue</p>
         </div>
         <!-- Email input -->
-        <div class="form-outline mb-4">
+        <div class="input-field-signin">
           <%= f.label :email, class: 'form-label' %>
-          <%= f.text_field :email, class: 'form-control form-control-lg', placeholder: 'Enter a valid email address' %>
+          <%= f.text_field :email, class: 'form-control form-control-lg', placeholder: 'Enter a valid email address', autofocus: true %>
         </div>
         <!-- Password input -->
-        <div class="form-outline mb-3">
+        <div class="input-field-signin">
           <label class="form-label" for="form3Example4"></label>
           <%= f.label :password, class: 'form-label' %>
           <%= f.password_field :password, placeholder: 'Enter a valid email address', class: 'form-control form-control-lg', placeholder: 'Enter password' %>
@@ -27,9 +27,9 @@
           </div> %>
           <%# <a href="#!" class="text-body">Forgot password?</a> %>
         </div>
-        <div class="text-center text-lg-start mt-4 pt-2">
-          <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-          <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <%= link_to 'Register', signup_path, class: 'link-primary' %></p>
+        <div class="text-right text-lg-start mt-4 pt-2">
+          <button type="submit" class="btn btn-primary btn-lg input-field-signin" style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+          <p class="input-field-signin">Don't have an account? <%= link_to 'Register', signup_path, class: 'link-primary' %></p>
         </div>
       <% end %>
     </div>

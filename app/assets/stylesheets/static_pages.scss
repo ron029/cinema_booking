@@ -8,11 +8,12 @@
 .table-container {
   position: relative;
 }
-.cinema-box {
-  min-width: 370px;
+.cinema-box, .book-user-box {
+  max-width: 370px;
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 20px;
+  vertical-align: top;
 }
 
 /* Style for the cinema name */
@@ -38,6 +39,60 @@
   padding-left: 0;
 }
 
+/* screening-form */
+.screening-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group select {
+  border-radius: 3px;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  border: 1.5px solid #ccc;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+}
+
+/* Add custom styles */
+.form-group select:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+}
+
+/* Style the dropdown arrow */
+.form-group select::after {
+  content: '\f0d7';
+  font-family: 'FontAwesome';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none;
+}
+
+/* signup */
+.input-field-signup {
+  margin-top: 10px;
+}
+
+/* signin */
+.input-field-signin {
+  margin-top: 20px;
+}
+
+/* jumbotron */
+.jumbotron {
+  margin: auto 50px;
+}
+
+
 /* Style for each booking item */
 .booking-item {
   margin-bottom: 5px;
@@ -52,8 +107,20 @@
   font-size: 14px;
 }
 
+/* booking user dashboard */
+.book-user-box {
+  min-width: 370px;
+  display: inline-block;
+  margin-right: 7px;
+}
+
+
 .cinema_hidden_id {
   display: none;
+}
+
+.cinema-status {
+  font-weight: bolder;
 }
 
 .table-search-movie {

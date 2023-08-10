@@ -12,16 +12,14 @@ class ScreeningsController < ApplicationController
   end
 
   def create
-    @cinemas = params[:screening][:cinema_id]
-    @movies = params[:screening][:movie_id]
+    @cinemas = Cinema.all
+    @movies = Movie.all
     @screening = Screening.new(screening_params)
-
-    if @screening.save
+    if @screening.valid? && @screening.save
       flash[:success] = 'Screening created successfully!'
       redirect_to screenings_new_path
     else
-      flash.now[:danger] = 'Already exist'
-      redirect_to :new
+      render screenings_new_path, status: :unprocessable_entity
     end
   end
 

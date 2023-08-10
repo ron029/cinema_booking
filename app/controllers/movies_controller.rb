@@ -8,9 +8,9 @@ class MoviesController < ApplicationController
   def index
     if params[:cinema_id]
       @cinema = Cinema.find(params[:cinema_id])
-      @all_movies = @cinema.movies.page(params[:page]).per(12)
+      @all_movies = @cinema.movies.order(created_at: :desc).page(params[:page]).per(10)
     else
-      @all_movies = Movie.page(params[:page]).per(12)
+      @all_movies = Movie.order(created_at: :desc).page(params[:page]).per(10)
     end
   end
 

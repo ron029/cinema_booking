@@ -4,11 +4,10 @@
 <% if !admin? %>
   <% if current_user %>
     <h1>My Bookings</h1>
-
     <% @bookings.each do |booking| %>
-      <div>
-        <h2>Cinema: <%= booking.screening.cinema.name %></h2>
-        <h3>Movie: <%= booking.screening.movie.title %></h3>
+      <div class="book-user-box">
+        <h2>Cinema: <%= booking.screening.cinema.name.titleize %></h2>
+        <h3>Movie: <%= booking.screening.movie.title.titleize %></h3>
         <p>Date: <%= booking.screening.date %></p>
         <p>Seat Number: <%= booking.seat_number %>
         <p>Time Slot: <%= booking.time_slot %></p>
@@ -19,23 +18,23 @@
     <h1>Dashboard</h1>
     <div class="row">
       <% @cinemas.each do |cinema| %>
-
         <% screenings_with_bookings = cinema.screenings.includes(:bookings) %>
         <div class="col-md-4" style="display: <%= @a = screenings_with_bookings.count > 0 ? 'inline-block;' : 'none;' %>">
           <div class="cinema-box" >
-            <h2><%= cinema.name %></h2>
+            <h2><%= cinema.name.titleize %></h2>
               <!-- DISPLAY CINEMA WITH BOOKINGS-->
               <% if screenings_with_bookings.any? %>
                 <h3>Screenings:</h3>
                 <ul>
-                  <p style="color:red"><%= @a=cinema.bookings.count == 10 ? 'Fully booked' : 'Available' %></p>
+                  <% @a=cinema.bookings.count == 10 ? 0 : 1 %>
+                  <p class="cinema-status" style="color:<%= @a.positive? ? 'green;' : 'red;' %>"><%= @a.positive? ? 'Available' : 'Fully Booked' %></p>
                   <% screenings_with_bookings.each do |screening| %>
                     
-                      <%= screening.movie.title %> - <%= screening.date %> - <%= screening.time_slot %>
+                      <%= screening.movie.title.titleize %> - <%= screening.date %> - <%= screening.time_slot %>
                       <!--DISPLAY INFO OF USER WHO SEAT -->
                       <% if admin? %>
                         <% screening.bookings.each do |booking| %>
-                          <p>Booking ID: <%= booking.id %>, User: <%= booking.user.full_name %>, Screening ID: <%= screening.id %></p>
+                          <p>Booking ID: <%= booking.id %>, User: <%= booking.user.full_name.titleize %>, Screening ID: <%= screening.id %></p>
                         <% end %>
                       <% else %>
                       : Currently <%= pluralize(screening.bookings.count, 'seat') %> 
@@ -55,7 +54,7 @@
               <h3>Users who made bookings:</h3>
               <ul>
                 <% @users_in_cinemas[cinema].each do |user| %>
-                  <li><%= user.full_name %> - <%= user.email %></li>
+                  <li><%= user.full_name.titleize %> - <%= user.email %></li>
                 <% end %>
               </ul>
             <% end %>
@@ -72,17 +71,18 @@
 
   <% @cinemas.each do |cinema| %>
     <div class="cinema-box" style="display: <%= @a=cinema.screenings.count > 0 ? 'inline-block;' : 'none;'%>">
-      <h2 class="cinema-name"><%= cinema.name %></h2>
+      <h2 class="cinema-name"><%= cinema.name.titleize %></h2>
       <% cinema.screenings.each do |screening| %>
         <div class="screening-details">
-          <h3 class="movie-title">Movie: <%= screening.movie.title %></h3>
+          <h3 class="movie-title">Movie: <%= screening.movie.title.titleize %></h3>
           <p>Date: <%= screening.date %></p>
           <p>Time Slot: <%= screening.time_slot %></p>
           <ul class="booking-list">
             <p>Currently <%= pluralize(screening.bookings.count, 'seat') %> at this time.</p>
             <% screening.bookings.each do |booking| %>
               <li class="booking-item">
-                <span class="user-info"><%= booking.user.full_name %></span>
+                <span class="user-info">#<%= booking.seat_number %></span>
+                <span class="user-info"><%= booking.user.full_name.titleize %></span>
                 <span class="user-info"><%= booking.user.email %></span>
               </li>
             <% end %>

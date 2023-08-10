@@ -1,23 +1,34 @@
-<h1>Create a New Screening</h1>
-<p class="alert alert-info">Please fill all the fields to create new booking.</p>
-<%= form_with(model: @screening, url: screenings_create_path) do |form| %>
-  <%= render 'shared/error_messages',object: @screening%>
-  <div>
-    <%= form.label :cinema_id %>
-    <%= form.collection_select :cinema_id, @cinemas, :id, :name, prompt: true %>
-  </div>
+<% provide(:title, custom_title('New Screening')) %>
 
-  <div>
-    <%= form.label :movie_id %>
-    <%= form.collection_select :movie_id, @movies, :id, :title, prompt: true %>
-  </div>
+<div class="container">
+  <h1>Create a New Screening</h1>
+  <p class="alert alert-info">Please fill all the fields to create new booking.</p>
+  <%= form_with(model: @screening, url: screenings_create_path, class: 'screening-form') do |form| %>
+    <%= render 'shared/error_messages', object: @screening %>
 
-  <div>
-    <%= form.label :date %>
-    <%= form.date_field :date %>
-  </div>
+    <div class="row input-field-signup">
+      <%= form.label :cinema_id, class: 'col-sm-4 col-form-label'  %>
+      <div class="col-sm-8 form-group">
+        <%= form.collection_select :cinema_id, @cinemas, :id, :name, prompt: true, class: 'custom-select' %>
+      </div>
+    </div>
+    
+    <div class="row input-field-signup">
+      <%= form.label :movie_id, class: 'col-sm-4 col-form-label'  %>
+      <div class="col-sm-8 form-group">
+        <%= form.collection_select :movie_id, @movies, :id, :title, prompt: true, class: 'custom-select', multiple: true  %>
+      </div>
+    </div class="row input-field-signup">
 
-  <div>
-    <%= form.submit "Create Screening" %>
-  </div>
-<% end %>
+    <div class="row input-field-signup">
+      <%= form.label :date, class: 'col-sm-4 col-form-label'  %>
+      <div class="col-sm-8">
+        <%= form.date_field :date, class: 'form-control'  %>
+      </div>
+    </div>
+
+    <div class="text-right input-field-signup">
+      <%= form.submit "Create Screening", class: 'btn btn-primary text-right' %>
+    </div>
+  <% end %>
+</div>

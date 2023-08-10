@@ -6,7 +6,7 @@ class BooksController < ApplicationController
   before_action :admin_only, except: %i[new create]
 
   def index
-    @book = Booking.all.page(params[:page])
+    @book = Booking.all.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def new

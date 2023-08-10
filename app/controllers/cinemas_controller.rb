@@ -6,7 +6,7 @@ class CinemasController < ApplicationController
   before_action :admin_only, except: %i[index show]
 
   def index
-    @cinemas = Cinema.all.page(params[:page]).per(10)
+    @cinemas = Cinema.all.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def new

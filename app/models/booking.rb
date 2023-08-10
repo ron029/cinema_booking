@@ -19,11 +19,10 @@
 #
 #  fk_rails_...  (screening_id => screenings.id)
 #  fk_rails_...  (user_id => users.id)
-#
+# Frozen_string_literal: true
 
 # This class respresent the bookings in the app
 class Booking < ApplicationRecord
-  # before_save :check_and_cancel_booking
   enum time_slot: {
     '10 AM' => 10,
     '7 PM' => 19,

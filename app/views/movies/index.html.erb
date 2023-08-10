@@ -9,14 +9,16 @@
       <tr>
         <th>Movie Name</th>
         <th>Description</th>
+        <th>Created At</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <% @all_movies.each do |movie| %>
         <tr>
-          <td><%= movie.title %></td>
-          <td><%= movie.description %> </td>
+          <td><%= movie.title.titleize %></td>
+          <td><%= movie.description.titleize %></td>
+          <td><%= movie.created_at.to_formatted_s(:short) %></td>
           <td>
             <%= link_to 'View', movie_path(movie), class: 'btn btn-success' %>
             <% if admin? %>
